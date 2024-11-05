@@ -33,4 +33,17 @@ public class ScheduleController {
     public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto) {
         return new ResponseEntity<>(scheduleService.saveSchedule(scheduleRequestDto), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id,
+                                               @RequestBody String password) {
+        scheduleService.deleteSchedule(id, password);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable Long id,
+                                                              @RequestBody ScheduleRequestDto scheduleRequestDto) {
+        return new ResponseEntity<>(scheduleService.updateSchedule(id, scheduleRequestDto.getTask(), scheduleRequestDto.getWorkerName(), scheduleRequestDto.getPassword()), HttpStatus.OK);
+    }
 }

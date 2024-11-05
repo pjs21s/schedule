@@ -54,6 +54,16 @@ public class JdbcTemplateScheduleRepository implements ScheduleRepository {
     }
 
     @Override
+    public int deleteSchedule(Long id, String password) {
+        return jdbcTemplate.update("DELETE FROM schedule WHERE id = ? AND password = ?", id, password);
+    }
+
+    @Override
+    public int updateSchedule(Long id, String task, String workerName, String password) {
+        return jdbcTemplate.update("UPDATE schedule SET task = ?, worker_name = ?, modified_at = ? WHERE id = ? AND password = ?", task, workerName, LocalDateTime.now(), id, password);
+    }
+
+    @Override
     public ScheduleResponseDto saveSchedule(Schedule schedule) {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         simpleJdbcInsert.withTableName("schedule").usingGeneratedKeyColumns("id");
